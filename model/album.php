@@ -38,9 +38,9 @@ class Album {
         // we make sure $id is an integer
         $id = intval($id);
 
-//        $album = $client->__soapCall('GetAlbumById', $id);
-//
-//        return new Album($album['id'], $album['title']);
+        $album = $client->__soapCall('GetAlbumById', $id);
+
+        return new Album($album['id'], $album['title']);
     }
 
 }
