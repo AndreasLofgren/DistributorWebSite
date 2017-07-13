@@ -12,24 +12,38 @@
  * @author andre
  */
 class albumController {
-    
-    
+
+    public function all() {
+        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
+        $params = [];
+        $albums = $client->__soapCall('GetAllAlbum', $params);
+        return $albums;
+    }
+
     public function index() {
-      // we store all the posts in a variable
-      $albums = Album::all();
-      require_once('view/albums/index.php');
+        // we store all the posts in a variable
+        $list = all();
+        require_once('view/albums/index.php');
+    }
+
+    public function find() {
+        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
+        // we make sure $id is an integer
+        $id = intval($id);
+
+        $album = $client->__soapCall('GetAlbumById', $id);
+
+        return new Album($album['id'], $album['title']);
     }
 
     public function show() {
-      // we expect a url of form ?controller=albums&action=show&id=x
-      // without an id we just redirect to the error page as we need the post id to find it in the database
-      if (!isset($_GET['id'])) {
+        // we expect a url of form ?controller=albums&action=show&id=x
+        // without an id we just redirect to the error page as we need the post id to find it in the database
+        if (!isset($_GET['id'])) {
             return call('pages', 'error');
         }
-
-        // we use the given id to get the right post
-      $album = Album::find($_GET['id']);
-      require_once('view/albums/show.php');
+        find();
+        require_once('view/albums/show.php');
     }
-  
+
 }

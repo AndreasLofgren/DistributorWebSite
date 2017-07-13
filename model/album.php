@@ -13,34 +13,74 @@
  */
 class Album {
 
-    public $al_id;
-    public $al_title;
-    public $al_picturepath;
-    public $al_stock;
-    public $al_suppprice;
-    public $al_saleprice;
-    public $al_songamount;
-
-    public function __construct($id, $title) {
-        $this->id = $id;
-        $this->author = $title;
+    private $al_id;
+    private $al_title;
+    private $al_picturepath;
+    private $al_stock;
+    private $al_suppprice;
+    private $al_saleprice;
+    private $al_songamount;
+    
+    function __construct($al_id, $al_title) {
+        $this->al_id = $al_id;
+        $this->al_title = $al_title;
     }
 
-    public static function all() {
-        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
-        $params = [];
-        $list = $client->__soapCall('GetAllAlbum', $params);
-        return $list;
+    
+    function getAl_id() {
+        return $this->al_id;
     }
 
-    public static function find($id) {
-        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
-        // we make sure $id is an integer
-        $id = intval($id);
-
-        $album = $client->__soapCall('GetAlbumById', $id);
-
-        return new Album($album['id'], $album['title']);
+    function getAl_title() {
+        return $this->al_title;
     }
+
+    function setAl_id($al_id) {
+        $this->al_id = $al_id;
+    }
+
+    function setAl_title($al_title) {
+        $this->al_title = $al_title;
+    }
+    function getAl_picturepath() {
+        return $this->al_picturepath;
+    }
+
+    function getAl_stock() {
+        return $this->al_stock;
+    }
+
+    function getAl_suppprice() {
+        return $this->al_suppprice;
+    }
+
+    function getAl_saleprice() {
+        return $this->al_saleprice;
+    }
+
+    function getAl_songamount() {
+        return $this->al_songamount;
+    }
+
+    function setAl_picturepath($al_picturepath) {
+        $this->al_picturepath = $al_picturepath;
+    }
+
+    function setAl_stock($al_stock) {
+        $this->al_stock = $al_stock;
+    }
+
+    function setAl_suppprice($al_suppprice) {
+        $this->al_suppprice = $al_suppprice;
+    }
+
+    function setAl_saleprice($al_saleprice) {
+        $this->al_saleprice = $al_saleprice;
+    }
+
+    function setAl_songamount($al_songamount) {
+        $this->al_songamount = $al_songamount;
+    }
+
 
 }
