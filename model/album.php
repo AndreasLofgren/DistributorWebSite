@@ -13,74 +13,76 @@
  */
 class Album {
 
-    private $al_id;
-    private $al_title;
-    private $al_picturepath;
-    private $al_stock;
-    private $al_suppprice;
-    private $al_saleprice;
-    private $al_songamount;
+    public $id;
+    public $title;
+    public $picturepath;
+    public $stock;
+    public $suppprice;
+    public $saleprice;
+    public $songamount;
     
-    function __construct($al_id, $al_title) {
-        $this->al_id = $al_id;
-        $this->al_title = $al_title;
+    function __construct($id, $title) {
+        $this->id = $id;
+        $this->title = $title;
     }
-
     
-    function getAl_id() {
-        return $this->al_id;
+    public function getId() {
+        return $this->id;
     }
 
-    function getAl_title() {
-        return $this->al_title;
+    public function getTitle() {
+        return $this->title;
     }
 
-    function setAl_id($al_id) {
-        $this->al_id = $al_id;
+    public function getPicturepath() {
+        return $this->picturepath;
     }
 
-    function setAl_title($al_title) {
-        $this->al_title = $al_title;
-    }
-    function getAl_picturepath() {
-        return $this->al_picturepath;
+    public function getStock() {
+        return $this->stock;
     }
 
-    function getAl_stock() {
-        return $this->al_stock;
+    public function getSuppprice() {
+        return $this->suppprice;
     }
 
-    function getAl_suppprice() {
-        return $this->al_suppprice;
+    public function getSaleprice() {
+        return $this->saleprice;
     }
 
-    function getAl_saleprice() {
-        return $this->al_saleprice;
+    public function getSongamount() {
+        return $this->songamount;
     }
 
-    function getAl_songamount() {
-        return $this->al_songamount;
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    function setAl_picturepath($al_picturepath) {
-        $this->al_picturepath = $al_picturepath;
+    public function setTitle($title) {
+        $this->title = $title;
     }
 
-    function setAl_stock($al_stock) {
-        $this->al_stock = $al_stock;
+    public function setPicturepath($picturepath) {
+        $this->picturepath = $picturepath;
     }
 
-    function setAl_suppprice($al_suppprice) {
-        $this->al_suppprice = $al_suppprice;
+    public function setStock($stock) {
+        $this->stock = $stock;
     }
 
-    function setAl_saleprice($al_saleprice) {
-        $this->al_saleprice = $al_saleprice;
+    public function setSuppprice($suppprice) {
+        $this->suppprice = $suppprice;
     }
 
-    function setAl_songamount($al_songamount) {
-        $this->al_songamount = $al_songamount;
+    public function setSaleprice($saleprice) {
+        $this->saleprice = $saleprice;
     }
+
+    public function setSongamount($songamount) {
+        $this->songamount = $songamount;
+    }
+
+
 
 
 }

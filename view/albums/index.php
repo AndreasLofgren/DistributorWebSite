@@ -2,7 +2,7 @@
 
 <?php foreach($albums as $album) {?>
   <p>
-    <?php echo $album->title; ?>
+    <?php echo $album->getTitle(); ?>
     <a href='?controller=albums&action=show&id=<?php echo $album->id; ?>'>See content</a>
   </p>
 <?php } ?>
