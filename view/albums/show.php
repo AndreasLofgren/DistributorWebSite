@@ -2,12 +2,7 @@
 
 <?php foreach ($albums as $album) { ?>
     <p>
-        <?php
-        echo 'test';
-        echo $albums;
-        echo $album;
-        echo $album->getTitle();
-        echo $album->id;
-        ?>
+        <?php echo $album->getTitle(); ?>
+        <?php echo $album->id; ?>
     </p>
 <?php } ?>

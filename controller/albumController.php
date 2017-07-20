@@ -15,7 +15,7 @@ class albumController {
 
     public function all() {
         $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
-        $params = [];
+        $params = array();
         $albums = $client->__soapCall('GetAllAlbum', $params);
         return $albums;
     }
@@ -32,12 +32,21 @@ class albumController {
     }
 
     public function find($id) {
-        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
-// we make sure $id is an integer
-        $id = intval($id);
-        $array = array($id);
-        $albums = $client->__soapCall('GetAlbumById', $array);
-
+//        $options = array();
+//        $classMap = array('GetAlbumByIdResponse' => 'GetAlbumById');
+//        $options ['trace'] = TRUE;
+//        $options['cache_wsdl'] = WSDL_CACHE_NONE;
+//        $options ['classmap'] = $classMap;
+//        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl", $options);
+//
+////      we make sure $id is an integer
+//        $id = intval($id);
+//        $params = array();
+//        $albums = $client->__soapCall('GetAlbumById', $params);
+////      $results = json_decode($albums, true);
+////      var_dump($results);
+//        var_dump($albums);
+//        return $albums;
         return $albums;
     }
 
@@ -47,11 +56,22 @@ class albumController {
         if (!isset($_GET['id'])) {
             return call('pages', 'error');
         }
-        $return = $this->find($_GET['id']);
+//        $return = $this->find($_GET['id']);
+//        $albums = array();
+//        foreach ($return as $liste) {
+//            echo $liste;
+//            foreach ($liste as $objekt) {
+//                echo $objekt;
+//                array_push($albums, new Album($objekt->id, $objekt->title));
+//            }
+//        }
+        $return = $this->all();
         $albums = array();
         foreach ($return as $liste) {
             foreach ($liste as $objekt) {
-                array_push($albums, new Album($objekt->id, $objekt->title));
+                if ($_GET['id'] == $objekt->id) {
+                    array_push($albums, new Album($objekt->id, $objekt->title));
+                }
             }
         }
         require_once('view/albums/show.php');
