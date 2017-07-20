@@ -2,50 +2,94 @@
 //signup.php
 error_reporting(E_ALL & ~E_NOTICE);
 include 'connect.php';
+include 'header.php';
 include 'enc.php';
 
 
 echo '<h2 id="sign-up-title">Sign up</h2>';
+//echo '<p id="msg">Signing up is restricted due to maintenance!</p>';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     /*the form hasn't been posted yet, display it
       note that the action="" will cause the form to post to the same page it is on */
     ?>
+    <script>
+        var onloadCallback = function() {
+            grecaptcha.render('recaptcha_element', {
+                'sitekey' : '6LesTiUUAAAAADjKMN5kWB0ZaWOwgaMyVvZDKQC8'
+            });
+        };
+    </script>
     <div id="form-sign-up">
         <form id="sign-up-form" class="col-sm-6 form-horizontal" action="" method="post">
             <div class="form-group">
                 <label for="user_name">Username: </label>
-                <input type="text" class="form-control" id="user_name" name="user_name"
+                <input type="text" class="form-control" id="name" name="user_name"
                        placeholder="Your user name!">
             </div>
             <div class="form-group">
                 <label for="user_pass">Password: </label>
-                <input type="password" class="form-control" id="user_pass" name="user_pass"
+                <input type="password" class="form-control" id="password" name="user_pass"
                        placeholder="Type your password!">
             </div>
             <div class="form-group">
                 <label for="user_pass_check">Retype your password: </label>
-                <input type="password" class="form-control" id="user_pass_check" name="user_pass_check"
+                <input type="password" class="form-control" id="password_check" name="user_pass_check"
                        placeholder="Retype your password!">
             </div>
             <div class="form-group">
                 <label for="user_email">E-mail</label>
-                <input type="email" class="form-control" id="user_email" name="user_email"
+                <input type="email" class="form-control" id="mail" name="user_email"
                        placeholder="Type your email!"></input>
             </div>
+            <div class="form-group" id="recaptcha_element"></div>
             <button type="submit" class="btn btn-primary" name="submitButton" id="sign-up-btn">Create Account</button>
         </form>
+        <!--<form action="?" method="POST">
+            <div id="recaptcha_element"></div>
+            <br/>
+            <input type="submit" value="Submit">
+        </form>-->
     </div>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+            async defer>
+    </script>
     <?php
 } else {
-    /* so, the form has been posted, we'll process the data in three steps:
+    
+    //checking the recaptcha response from google API
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $response = $_POST['g-recaptcha-response'];
+    $data = array("secret" => "6LesTiUUAAAAAFF_9QiLm6fqdOS5kKVjmRNRbzK4", "response" => "$response");
+    
+    // use key 'http' even if you send the request to https://...
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data)
+        )
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    
+//    if ($result === FALSE) { /* Handle error */ }
+    
+    $oResponse = json_decode($result, true);
+//    var_dump( "response: " , $oResponse['success']);
+    
+    /* if the form has been posted, we'll process the data in three steps:
         1.  Check the data
         2.  Let the user refill the wrong fields (if necessary)
         3.  Save the data
     */
     $errors = array(); /* declare the array for later use */
     
-    if (isset($_POST['user_name'])) {
+    if(!$oResponse['success']){
+        $errors[] = 'Please check you are a human with "reCAPTCHA" tool!';
+    } else
+    
+        if (isset($_POST['user_name'])) {
         //the user name exists
         if (!ctype_alnum($_POST['user_name'])) { //check for alphanumeric chars
             $errors[] = 'The username can only contain letters and digits.';
@@ -67,13 +111,16 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     }
     
     if (!empty($errors)) /*if the errors array is not empty display them...*/ {
-        echo 'A couple of fields are not filled in correctly!';
+        echo '<p id="reg-msg">A couple of fields are not filled in correctly!<p>';
         echo '<ul>';
         foreach ($errors as $key => $value) /* walk through the array so all the errors get displayed */ {
-            echo '<li>' . $value . '</li>'; /* this generates a nice error list */
+            echo '<li><p id="reg-msg">' . $value . '</p></li>'; /* this generates a nice error list */
         }
         echo '</ul>';
-    } else {
+    } else
+//        echo "<p id='msg'> You can't sign up right now!</p>";
+    /*UNTIL SECURITY IS ADDED LEAVE THESE COMMENTED!*/
+        {
         //save the user details in the db
         $sql = $conn->prepare('call insertUser(:user_name, :user_pass, :user_email, NOW(), 0)');
 
@@ -87,14 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         $sql->bindParam(':user_email', $value3, PDO::PARAM_STR, 4000);
 
         $result = $sql->execute();
-
         if (!$result) {
             //something went wrong, display the error
-            echo 'Something went wrong while registering. Please try again later. Possible reasons: user or email already exist.';
+            echo '<p id="reg-msg">Something went wrong while registering. Please try again later. Possible reasons: user or email already exist.<p>';
             //echo mysql_error(); //debugging purposes, uncomment when needed
         } else {
-            echo '<p id="reg-msg">Successfully registered. You can now <a href="signin.php">sign in</a> and start posting! :-)<p>';
+            echo '<p class="msg">Successfully registered. You can now <a class="reg-msg" href="signin.php">sign in</a> and start posting!</p>';
         }
     }
 }
 
+include 'footer.php';

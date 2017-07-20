@@ -6,6 +6,7 @@
     <header>
       <a href='/DistributorWebSite'>Home</a>
       <a href='?controller=album&action=index'>Albums</a>
+      <a href='?controller=signIn&action=signIn'>Log In</a>
     </header>
 
     <?php require_once('routes.php'); ?>

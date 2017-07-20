@@ -18,6 +18,10 @@
         require_once('model/album.php');
         $controller = new AlbumController();
       break;
+      case 'signIn':
+          require_once('model/customer.php');
+          $controller = new signInController();
+          break;
     }
 
     $controller->{ $action }();
@@ -25,7 +29,8 @@
 
   // we're adding an entry for the new controller and its actions
   $controllers = array('pages' => ['home', 'error'],
-                       'album' => ['index', 'show']);
+                       'album' => ['index', 'show'],
+                       'signIn' => ['signIn, signUp']);
 
   if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {

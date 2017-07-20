@@ -47,7 +47,7 @@ class albumController {
         if (!isset($_GET['id'])) {
             return call('pages', 'error');
         }
-        find();
+        $this->find();
         require_once('view/albums/show.php');
     }
 
