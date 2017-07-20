@@ -31,14 +31,14 @@ class albumController {
         require_once('view/albums/index.php');
     }
 
-    public function find() {
+    public function find($id) {
         $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
 // we make sure $id is an integer
         $id = intval($id);
+        $array = array($id);
+        $albums = $client->__soapCall('GetAlbumById', $array);
 
-        $album = $client->__soapCall('GetAlbumById', $id);
-
-        return new Album($album['id'], $album['title']);
+        return $albums;
     }
 
     public function show() {
@@ -47,7 +47,13 @@ class albumController {
         if (!isset($_GET['id'])) {
             return call('pages', 'error');
         }
-        $this->find();
+        $return = $this->find($_GET['id']);
+        $albums = array();
+        foreach ($return as $liste) {
+            foreach ($liste as $objekt) {
+                array_push($albums, new Album($objekt->id, $objekt->title));
+            }
+        }
         require_once('view/albums/show.php');
     }
 
