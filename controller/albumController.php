@@ -46,6 +46,22 @@ class albumController {
 //      $results = json_decode($albums, true);
 //      var_dump($results);
 //        var_dump($albums);
+//        
+        
+        return $album;
+    }
+    
+    public function findLyricToAlbum(Album $album){
+        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl");
+        //here we add all the lyric
+        
+        $params = array("albumId"=> $album->id );
+        $lryiclist = $client->__soapCall('getLyricToAlbum', array($params));
+        foreach ($lryiclist as $liste) {
+            foreach ($liste as $objekt) {
+                $album->setLyric($objekt->title);
+            }
+        }
         return $album;
     }
 
@@ -55,20 +71,13 @@ class albumController {
         if (!isset($_GET['id'])) {
             return call('pages', 'error');
         }
-//        $return = $this->find($_GET['id']);
-//        $albums = array();
-//        foreach ($return as $liste) {
-//            echo $liste;
-//            foreach ($liste as $objekt) {
-//                echo $objekt;
-//                array_push($albums, new Album($objekt->id, $objekt->title));
-//            }
-//        }
+
         $return = $this->find($_GET['id']);
         $albums = array();
         foreach ($return as $objekt) {
            $album = new Album($objekt->id, $objekt->title);
         }
+        $album = $this->findLyricToAlbum($album);
         require_once('view/albums/show.php');
     }
 

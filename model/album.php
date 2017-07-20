@@ -20,10 +20,12 @@ class Album {
     public $suppprice;
     public $saleprice;
     public $songamount;
+    public $lyric;
     
     function __construct($id, $title) {
         $this->id = $id;
         $this->title = $title;
+        $this->lyric = array();
     }
     
     public function getId() {
@@ -80,6 +82,15 @@ class Album {
 
     public function setSongamount($songamount) {
         $this->songamount = $songamount;
+    }
+
+    public function getLyric() {
+        return $this->lyric;
+    }
+
+    public function setLyric($lyric) {
+        array_push($this->lyric, $lyric);
+        
     }
 
 
