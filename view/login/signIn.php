@@ -50,13 +50,7 @@ if (isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true) {
 //            echo '</ul>';
         } else {
             //the form has been posted without errors, so save it
-            //mysql_real_escape_string, keep everything safe!
-            $sql = $conn->prepare('call getUserName(:user_name)');
-            $value = val($_POST['name']);
-            $sql->bindParam(':name', $value, PDO::PARAM_STR, 4000);
-            $resultSet = $sql->execute();
-
-            if ($resultSet == 0) {
+            if (!is_array($array)) {
                 //something went wrong, display the error
                 echo '<p id="msg">The user doesn\'t exist. Please<a href="signUp.php"> sign-up<a>!</p>';
                 //echo mysqli_error($conn); //debugging purposes, uncomment when needed
@@ -64,7 +58,7 @@ if (isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true) {
                 //the query was successfully executed, there are 2 possibilities
                 //1. the query returned data, the user can be signed in
                 //2. the query returned an empty result set, the credentials were wrong
-                while ($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+                foreach ($user as $name) {
                     if ( $_POST['password'] != $row['password'] && !password_verify( $_POST['password'], $row['password'] ) ){
                         echo '<p id="msg">You have supplied a wrong username or password. Please try again.</p>';
                     } else {
@@ -77,7 +71,6 @@ if (isset($_SESSION['signed_in']) && $_SESSION['signed_in'] == true) {
 
                     }
                 }
-                unset($result);
             }
         }
     }

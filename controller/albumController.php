@@ -32,21 +32,21 @@ class albumController {
     }
 
     public function find($id) {
-//        $options = array();
-//        $classMap = array('GetAlbumByIdResponse' => 'GetAlbumById');
-//        $options ['trace'] = TRUE;
-//        $options['cache_wsdl'] = WSDL_CACHE_NONE;
-//        $options ['classmap'] = $classMap;
-//        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl", $options);
-//
-////      we make sure $id is an integer
-//        $id = intval($id);
-//        $params = array();
-//        $albums = $client->__soapCall('GetAlbumById', $params);
-////      $results = json_decode($albums, true);
-////      var_dump($results);
-//        var_dump($albums);
-//        return $albums;
+        $options = array();
+        $classMap = array('GetAlbumByIdResponse' => 'GetAlbumById');
+        $options ['trace'] = TRUE;
+        $options['cache_wsdl'] = WSDL_CACHE_NONE;
+        $options ['classmap'] = $classMap;
+        $client = new SoapClient("http://localhost:8080/GetInfo/GetInfo?wsdl", $options);
+
+//      we make sure $id is an integer
+        $id = intval($id);
+        $params = array($id);
+        $albums = $client->__soapCall('GetAlbumById', $params);
+//      $results = json_decode($albums, true);
+//      var_dump($results);
+        var_dump($albums);
+        return $albums;
         return $albums;
     }
 

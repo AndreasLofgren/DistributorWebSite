@@ -12,15 +12,18 @@
  * @author andre
  */
 class signInController {
-    
-    public function user() {
+
+    public function signIn() {
         $client = new SoapClient("http://localhost:8080/Logon/Logon?wsdl");
         $name = "";
-        $password = "";        
-        $user = $client->__soapCall("checkLogon", $arguments);
+        $password = "";
+        $param = array('Username' => $name, 'Password' => $password);
+        $user = $client->__soapCall("checkLogon", $param);
+        $array = array();
         foreach ($user as $object) {
-            array_push($array, new customer($object->cvrnumber, $object->name, $object->storechain, $object->street, $object->tlf, $object->mail, $object->password));
+            array_push($array, new Customer($object->cvrnumber, $object->name, $object->storechain, $object->street, $object->tlf, $object->mail, $object->password));
         }
         require_once('view/login/signIn.php');
     }
+
 }
