@@ -8,7 +8,8 @@
 <p>  </p>
 <?php foreach ($album->getLyric() as $lyric) { ?>
     <p>
-        <?php echo $lyric; ?>
+
+        <a href='?controller=lyric&action=lyric&id=<?php echo $lyric->id; ?>'><?php echo $lyric; ?></a>
 
     </p>
 <?php } ?>
