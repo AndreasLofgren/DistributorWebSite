@@ -59,7 +59,7 @@ class albumController {
         $lryiclist = $client->__soapCall('getLyricToAlbum', array($params));
         foreach ($lryiclist as $liste) {
             foreach ($liste as $objekt) {
-                $album->setLyric($objekt->title);
+                $album->setLyric($objekt);
             }
         }
         return $album;

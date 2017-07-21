@@ -9,7 +9,7 @@
 <?php foreach ($album->getLyric() as $lyric) { ?>
     <p>
 
-        <a href='?controller=lyric&action=lyric&id=<?php echo $lyric->id; ?>'><?php echo $lyric; ?></a>
+        <a href='?controller=lyric&action=lyric&id=<?php echo $lyric->id; ?>'><?php echo $lyric->title; ?></a>
 
     </p>
 <?php } ?>
