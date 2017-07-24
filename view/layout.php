@@ -7,6 +7,7 @@
       <a href='/DistributorWebSite'>Home</a>
       <a href='?controller=album&action=index'>Albums</a>
       <a href='?controller=signIn&action=signIn'>Log In</a>
+      <a href='?controller=order&action=show'>Order</a>
       
     </header>
 

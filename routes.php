@@ -26,6 +26,10 @@ function call($controller, $action) {
             require_once('model/lyric.php');
             $controller = new lyricController();
             break;
+        case 'order':
+            require_once('model/order.php');
+            $controller = new orderController();
+            break;
     }
 
     $controller->{ $action }();
@@ -35,7 +39,8 @@ function call($controller, $action) {
 $controllers = array('pages' => ['home', 'error'],
     'album' => ['index', 'show'],
     'signIn' => ['signIn', 'signUp'],
-    'lyric' => ['lyric']);
+    'lyric' => ['lyric'],
+    'order' => ['show', 'create', 'add']);
 
 if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {
